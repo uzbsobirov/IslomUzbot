@@ -1,19 +1,15 @@
 from aiogram import Router, types, F
-from aiogram.filters import CommandStart
 from aiogram.enums.parse_mode import ParseMode
-from aiogram.client.session.middlewares.request_logging import logger
 from aiogram.fsm.context import FSMContext
 
-from loader import db, bot
-from data.config import ADMINS
-from states import PrayTypes
-from utils.extra_datas import make_title
 from keyboards.inline.main import main
+from keyboards.inline.pray_buttons import pray_region
+from states import PrayTime
 
 router = Router()
 
 
-@router.callback_query(PrayTypes.types, F.data == "back")
+@router.callback_query(F.data == "main_back")
 async def back_to_main(call: types.CallbackQuery, state: FSMContext):
     full_name = call.message.from_user.full_name
     user_mention = call.message.from_user.mention_html(full_name)
@@ -26,3 +22,10 @@ async def back_to_main(call: types.CallbackQuery, state: FSMContext):
     await call.message.answer_photo(caption=start_text, parse_mode=ParseMode.HTML,
                                     photo=main_photo, reply_markup=main)
     await state.clear()
+
+
+@router.callback_query(PrayTime.region, F.data == "back")
+async def back_to_main(call: types.CallbackQuery, state: FSMContext):
+    await call.message.delete()
+    await call.message.answer(text="<b>Qaysi viloyat kerak ekanligini tanlang👇👇👇</b>", reply_markup=pray_region)
+    await state.set_state(PrayTime.region)
