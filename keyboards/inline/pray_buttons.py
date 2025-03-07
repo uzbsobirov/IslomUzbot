@@ -32,3 +32,16 @@ pray_region = InlineKeyboardMarkup(
         ]
     ]
 )
+
+
+pray_text = InlineKeyboardMarkup(
+    inline_keyboard=[
+        [
+            InlineKeyboardButton(text="✨ Ogiz ochish duosi", callback_data='ogiz_ochish'),
+            InlineKeyboardButton(text="✨ Ogiz yopish duosi", callback_data='ogiz_yopish')
+        ],
+        [
+            InlineKeyboardButton(text="◀️ Orqaga", callback_data='main_back')
+        ]
+    ]
+)

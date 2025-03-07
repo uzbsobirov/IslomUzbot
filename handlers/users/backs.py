@@ -3,8 +3,8 @@ from aiogram.enums.parse_mode import ParseMode
 from aiogram.fsm.context import FSMContext
 
 from keyboards.inline.main import main
-from keyboards.inline.pray_buttons import pray_region
-from states import PrayTime
+from keyboards.inline.pray_buttons import pray_region, pray_text
+from states import PrayTime, Ramadan
 
 router = Router()
 
@@ -29,3 +29,12 @@ async def back_to_main(call: types.CallbackQuery, state: FSMContext):
     await call.message.delete()
     await call.message.answer(text="<b>Qaysi viloyat kerak ekanligini tanlang👇👇👇</b>", reply_markup=pray_region)
     await state.set_state(PrayTime.region)
+
+
+@router.callback_query(Ramadan.type, F.data == "back")
+async def back_to_main(call: types.CallbackQuery, state: FSMContext):
+    await call.message.delete()
+    photo = "https://t.me/islom_medias/22"
+    caption = "<b>Kerakli bo'limni tanlang👇👇👇</b>"
+    await call.message.answer_photo(photo=photo, caption=caption, reply_markup=pray_text)
+    await state.set_state(Ramadan.types)

@@ -1,2 +1,2 @@
 from .test import Test, AdminState
-from .pray import PrayTime
+from .pray import PrayTime, Ramadan, Quran
